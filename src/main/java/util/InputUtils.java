@@ -37,20 +37,18 @@ public final class InputUtils {
                 System.out.print("\nDigite o nome completo do pet (ex: Toddy Lactea): ");
                 String name = sc.nextLine().trim();
                 validateNoInvalidChars(name); // Verifica se a entrada possuí números ou caracteres especiais
+
                 String[] fields = name.split("\\s");
 
                 if (fields.length < 2) {
                     throw new IllegalArgumentException("⚠️ Digite nome e sobrenome (ex: Alfredo Lactea).");
                 }
-
                 String firstName = fields[0];
                 String lastName = fields[1];
 
                 return new String[] {firstName, lastName};
-
             } catch (IllegalArgumentException e){
-                System.out.println(e.getMessage());
-                System.out.print("Digite novamente: ");
+                System.out.print(e.getMessage());
             }
         }
     }
@@ -101,9 +99,7 @@ public final class InputUtils {
             if (street.isEmpty() || city.isEmpty()) {
                 System.out.println("Informe os dados obrigatórios (Rua e Cidade).");
                 continue;
-            }
-
-            if (number.isBlank()){
+            } else if (number.isBlank()) {
                 number = NOT_INFORMED; // Caso o usuario não informe o número
             }
 
@@ -114,13 +110,17 @@ public final class InputUtils {
     public static double readPetAge(){
         while (true){
             try {
-                System.out.print("Digite a idade do pet (em anos): ");
+                System.out.print("Digite a idade do pet: ");
                 String input = sc.nextLine().trim().replace(",",".");
                 double age = Double.parseDouble(input);
 
-                return convertToYears(age);
+                if (age < 1.0){
+                    return convertMonthsFractionToYears(age);
+                }
+
+                return age;
             }catch (NumberFormatException e){
-                System.out.println("Entrada Inválida! Digite um número válido: ");
+                System.out.println("Entrada Inválida! Digite um número válido.");
             }
         }
     }
@@ -134,7 +134,7 @@ public final class InputUtils {
 
                 return Double.parseDouble(String.format("%.2f", inputParse));
             }catch (NumberFormatException e){
-                System.out.println("Entrada Inválida! Digite um número válido");
+                System.out.println("Entrada Inválida! Digite um número válido.");
             }
         }
     }
@@ -154,7 +154,7 @@ public final class InputUtils {
         }
     }
 
-    // Metodo auxiliar para validar se há apenas letras e espaços
+    // Metodo auxiliar para validar se o nome contém apenas letras e espaços
     private static void validateNoInvalidChars(String name) {
         if (!name.matches("[a-zA-Z ]+")) {
             throw new IllegalArgumentException("⚠️ O nome não pode conter números ou caracteres especiais.");
@@ -162,12 +162,12 @@ public final class InputUtils {
     }
 
     // Se o valor for menor que 1, assume que é a idade em meses e converte para anos
-    private static double convertToYears(double input) {
-        double converted = input;
-        if (input < 1.0) {
-            converted /= 12.0;
-        }
+    private static double convertMonthsFractionToYears(double input) {
+        double months = input * 100; //Ex: 0.1 * 100 = 10 Meses
+        double years = months / 12; //Ex: 10 / 12 = 0.83 Anos
 
-        return Double.parseDouble(String.format("%.3f", converted));
+        // Faz o cast para double, pois Math.round retorna um long.
+        // Sem o cast, a divisão seria feita como inteira (long / int) e perderia as casas decimais, resultando em 0.
+        return (double) Math.round(years * 100) / 100;
     }
 }
