@@ -9,6 +9,7 @@ import java.util.List;
 public interface PetRepository {
     List<Pet> getAllPets();
     void save(Pet pet);
+    void delete(Pet pet);
     boolean exists(Pet pet);
 
     List<Pet> findByNameAndType(String name, PetType petType);
