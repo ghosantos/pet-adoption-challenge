@@ -3,7 +3,6 @@ package repository;
 import model.Pet;
 import model.enums.PetSex;
 import model.enums.PetType;
-import util.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,10 @@ public class PetRepositoryInMemory implements PetRepository {
     @Override
     public void save(Pet pet){
         petList.add(pet);
-        FileUtils.writeForm(pet);
+    }
+
+    public void delete(Pet pet){
+        petList.remove(pet);
     }
 
     @Override
