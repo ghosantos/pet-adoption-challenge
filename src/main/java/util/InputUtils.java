@@ -11,38 +11,16 @@ public final class InputUtils {
         return sc;
     }
 
-    public static int validateEntryMenu(String message){
-        System.out.print(message);
+    public static int readInt(){
         return Integer.parseInt(sc.nextLine().trim().replaceAll("\\s", ""));
     }
 
-    public static String readName(){
+    public static String readString(){
         return sc.nextLine().trim();
     }
 
-    public static String readPetType(){
-        return sc.nextLine().trim().toUpperCase();
-    }
-
-    public static String readPetGender(){
-        return sc.nextLine().trim().toUpperCase();
-    }
-
-    public static String readAddress(){
-        return sc.nextLine().trim();
-    }
-
-    public static double readPetAge(){
+    public static double readDouble(){
         String input = sc.nextLine().trim().replace(",", ".");
         return Double.parseDouble(input);
-    }
-
-    public static double readPetWeight(){
-        String input = sc.nextLine().trim().replace(",",".");
-        return Double.parseDouble(input);
-    }
-
-    public static String readPetRace(){
-         return sc.nextLine().trim();
     }
 }
