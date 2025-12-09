@@ -1,21 +1,22 @@
 package model;
 
-import model.enums.PetGender;
+import exceptions.DomainException;
+import model.enums.PetSex;
 import model.enums.PetType;
 
 public class Pet {
     private String petName;
     private PetType petType;
-    private PetGender petGender;
+    private PetSex petSex;
     private String address;
     private Double petAge;
     private Double petWeight;
     private String petRace;
 
-    public Pet(String petName, PetType petType, PetGender petGender, String address, Double petAge, Double petWeight, String petRace) {
+    public Pet(String petName, PetType petType, PetSex petSex, String address, Double petAge, Double petWeight, String petRace) {
         this.petName = petName;
         this.petType = petType;
-        this.petGender = petGender;
+        this.petSex = petSex;
         this.address = address;
         this.petAge = petAge;
         this.petWeight = petWeight;
@@ -38,12 +39,12 @@ public class Pet {
         this.petType = petType;
     }
 
-    public PetGender getPetGender() {
-        return petGender;
+    public PetSex getPetGender() {
+        return petSex;
     }
 
-    public void setPetGender(PetGender petGender) {
-        this.petGender = petGender;
+    public void setPetGender(PetSex petSex) {
+        this.petSex = petSex;
     }
 
     public String getAddress() {
@@ -80,12 +81,6 @@ public class Pet {
 
     @Override
     public String toString() {
-        return  "Nome: " + petName + "\n"
-                + "Tipo: " + petType + "\n"
-                + "Gênero: " + petGender + "\n"
-                + "Endereço: " + address + "\n"
-                + "Idade: " + petAge + "\n"
-                + "Peso: " + petWeight + "Kg" + "\n"
-                + "Raça: " + petRace + "\n";
+        return petName + " - " + petType + " - " + petSex + " - " + address + " - " + petAge + " anos" + " - " + petWeight + "Kg" + " - " + petRace;
     }
 }
