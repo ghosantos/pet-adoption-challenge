@@ -98,6 +98,16 @@ public class MenuView {
                         }
                     }
 
+                    case 4 -> {
+                        List<Pet> petList = serviceAdoption.searchAllPets();
+
+                        System.out.println("\n📒 Lista de Pets: ");
+                        for (Pet p : petList){
+                            System.out.println(p);
+                        }
+                        System.out.printf("Total de Pets cadastrados: %d\n", petList.size());
+                    }
+
                     case 6 -> {
                         System.out.println("Finalizado.");
                         return;
