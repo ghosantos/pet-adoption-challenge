@@ -27,6 +27,10 @@ public class ServiceAdoption {
         FileUtils.writeForm(newPet);
     }
 
+    public List<Pet> searchAllPets(){
+        return petRepository.getAllPets();
+    }
+
     public List<Pet> searchPetsByName(String name, PetType petType){
         return petRepository.findByNameAndType(name, petType);
     }
