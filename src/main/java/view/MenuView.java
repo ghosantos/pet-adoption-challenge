@@ -48,14 +48,19 @@ public class MenuView {
                         // Busca a lista conforme os critérios de busca
                         List<Pet> founds = searchMenu();
 
-                        // Se achar algo, pede para selecionar uma das opções
-                        if (founds != null || founds.isEmpty()) {
+                        if (founds == null) {
+                            // Se for nulo, significa que o usuário escolheu "Voltar" no menu de busca
+                            System.out.println("🔙 Operação cancelada.");
+                        } else if (founds.isEmpty()) {
+                            System.out.println("❌ Nenhum pet encontrado com essas características.");
+                        } else {
+                            // Se achou algo, prossegue
                             Pet selectedPet = selectPetFromList(founds);
 
                             // Chama o menu de edição para o pet
                             if (selectedPet != null) {
                                 menuEdition(selectedPet);
-                                System.out.println("✅ Informações alteradas com sucesso!");
+                                System.out.println("✅ Informações alteradas com sucesso!\n" + selectedPet);
                             }
                         }
                     }
@@ -64,21 +69,37 @@ public class MenuView {
                         // Busca a lista conforme os critérios de busca
                         List<Pet> founds = searchMenu();
 
-                        // Se achar algo, pede para selecionar uma das opções
-                        if (founds != null && founds.isEmpty()) {
+                        if (founds == null) {
+                            // Se for nulo, significa que o usuário escolheu "Voltar" no menu de busca
+                            System.out.println("🔙 Operação cancelada.");
+                        } else if (founds.isEmpty()) {
+                            System.out.println("❌ Nenhum pet encontrado com essas características.");
+                        } else {
+                            // Se achou algo, prossegue
                             Pet selectedPet = selectPetFromList(founds);
 
-                            // Realiza e exclusão do pet
+                            // Confirmação para exclusão do Pet.
                             if (selectedPet != null) {
-                                serviceAdoption.deletePet(selectedPet);
-                                System.out.println("✅ Pet deletado com sucesso!");
+                                System.out.printf("⚠️ Deseja realmente excluir o Pet '%s'? (S/N): ", selectedPet.getName());
+
+                                String confirmation = InputUtils.readString();
+
+                                if (confirmation.equalsIgnoreCase("S")) {
+                                    try {
+                                        serviceAdoption.deletePet(selectedPet);
+                                        System.out.println("\n🗑️ Pet deletado com sucesso!");
+                                    } catch (DomainException e) {
+                                        System.out.println("❌ Erro ao deletar: " + e.getMessage());
+                                    }
+                                } else {
+                                    System.out.println("🚫 Operação cancelada.");
+                                }
                             }
                         }
                     }
 
-
                     case 6 -> {
-                        System.out.println("Finalizado");
+                        System.out.println("Finalizado.");
                         return;
                     }
                 }
@@ -188,12 +209,14 @@ public class MenuView {
                 PetType type = null;
                 while (type == null) {
                     try {
-                        int option = getOption(1, 2, "Tipo (1.Cão / 2.Gato): ");
+                        int option = getOption(1, 3, "Tipo (1.Cão / 2.Gato): ");
 
                         if (option == 1) {
                             type = PetType.CACHORRO;
                         } else if (option == 2) {
                             type = PetType.GATO;
+                        } else if (option == 3) {
+                            return null;
                         }
                     } catch (DomainException e) {
                         System.out.println(e.getMessage());
@@ -201,7 +224,7 @@ public class MenuView {
                 }
 
                 System.out.print("""
-                        Critério de busca:
+                        🔎 Critério de busca:
                         1. Nome    2. Sexo
                         3. Idade   4. Peso
                         5. Raça    6. Endereço
@@ -264,14 +287,14 @@ public class MenuView {
 
     // Metodo responsável por retornar todos os resultados da lista com base nos critérios definidos no metodo searchMenu.
     private Pet selectPetFromList(List<Pet> pets) {
-        System.out.println("\n✅ Pets encontrados:");
-        for (int i = 0; i < pets.size(); i++) {
-            System.out.println((i + 1) + " - " + pets.get(i));
-        }
-
         while (true) {
+            System.out.println("\n✅ Pets encontrados:");
+            for (int i = 0; i < pets.size(); i++) {
+                System.out.println((i + 1) + " - " + pets.get(i));
+            }
+
             try {
-                int index = getOption(1, pets.size(), "Escolha o pet que deseja alterar: ");
+                int index = getOption(1, pets.size(), "Selecione o Pet desejado: ");
                 return pets.get(index - 1);
             } catch (NumberFormatException e) {
                 System.out.println("⚠️ Digite uma opção válida.");
