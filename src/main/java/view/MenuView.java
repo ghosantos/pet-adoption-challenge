@@ -45,7 +45,7 @@ public class MenuView {
                     }
 
                     case 2 -> {
-                        // Busca a lista conforme os critérios de busca
+                        // Busca Padrão (Obriga informar Tipo do Pet) para edição
                         List<Pet> founds = searchMenu();
 
                         if (founds == null) {
@@ -66,7 +66,7 @@ public class MenuView {
                     }
 
                     case 3 -> {
-                        // Busca a lista conforme os critérios de busca
+                        // Busca Padrão (Obriga informar Tipo do Pet) para deleção
                         List<Pet> founds = searchMenu();
 
                         if (founds == null) {
@@ -106,6 +106,23 @@ public class MenuView {
                             System.out.println(p);
                         }
                         System.out.printf("Total de Pets cadastrados: %d\n", petList.size());
+                    }
+
+                    case 5 -> {
+                        // Busca Dinâmica (Não obriga Tipo do Pet)
+                        List<Pet> founds = searchMenuByCriteria();
+
+                        if (founds == null){
+                            // Se for nulo, significa que o usuário escolheu "Voltar" no menu de busca
+                            System.out.println("🔙 Operação cancelada.");
+                        } else if (founds.isEmpty()) {
+                        System.out.println("❌ Nenhum pet encontrado com essas características.");
+                        }else {
+                            System.out.println("\n✅ Pets encontrados:");
+                            for (int i = 0; i < founds.size(); i++) {
+                                System.out.println((i + 1) + " - " + founds.get(i));
+                            }
+                        }
                     }
 
                     case 6 -> {
@@ -210,26 +227,42 @@ public class MenuView {
         return new Pet(name, type, sex, address, age, weight, race);
     }
 
-    // Metodo com a lógica de busca do Pet utilizando os critérios.
-    private List<Pet> searchMenu() {
+    // Menu de busca padrão: Exige que o usuario selecione o tipo (Cachorro/Gato) antes de escolher o critério de filtro.
+    private List<Pet> searchMenu(){
+        return executeSearchLogic(true);
+    }
+
+    // Menu de busca dinâmica: Permite filtrar diretamente pelos critérios (ex: Nome, Peso) sem restringir o tipo do animal.
+    private List<Pet> searchMenuByCriteria() {
+        return executeSearchLogic(false);
+    }
+
+    // Centraliza a lógica de interação de busca.
+    // O parâmetro 'requireType' define se o fluxo deve obrigar a seleção do tipo de pet (true) ou permitir a busca global (false).
+    private List<Pet> executeSearchLogic(boolean requireType){
         System.out.println("\n--- BUSCA DE PETS ---");
 
         while (true) {
             try {
                 PetType type = null;
-                while (type == null) {
-                    try {
-                        int option = getOption(1, 3, "Tipo (1.Cão / 2.Gato): ");
 
-                        if (option == 1) {
-                            type = PetType.CACHORRO;
-                        } else if (option == 2) {
-                            type = PetType.GATO;
-                        } else if (option == 3) {
-                            return null;
+                // Se requireType for true, entra no loop para obrigar a escolha do tipo.
+                // Se for false, 'type' permanece null (busca dinâmica).
+                if (requireType){
+                    while (type == null) {
+                        try {
+                            int option = getOption(1, 3, "Tipo (1.Cão / 2.Gato / 3.Voltar): ");
+
+                            if (option == 1) {
+                                type = PetType.CACHORRO;
+                            } else if (option == 2) {
+                                type = PetType.GATO;
+                            } else if (option == 3) {
+                                return null;
+                            }
+                        } catch (DomainException e) {
+                            System.out.println(e.getMessage());
                         }
-                    } catch (DomainException e) {
-                        System.out.println(e.getMessage());
                     }
                 }
 
@@ -291,11 +324,10 @@ public class MenuView {
             } catch (NumberFormatException e) {
                 System.out.println("⚠️ Erro: Entrada Inválida. Digite um número válido.");
             }
-
         }
     }
 
-    // Metodo responsável por retornar todos os resultados da lista com base nos critérios definidos no metodo searchMenu.
+    // Exibe a lista de pets encontrados na busca e retorna o Pet específico selecionado pelo usuário.
     private Pet selectPetFromList(List<Pet> pets) {
         while (true) {
             System.out.println("\n✅ Pets encontrados:");
