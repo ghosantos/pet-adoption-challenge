@@ -1,13 +1,12 @@
 package model;
 
-import exceptions.DomainException;
 import model.enums.PetSex;
 import model.enums.PetType;
 
 public class Pet {
     private String petName;
-    private PetType petType;
-    private PetSex petSex;
+    private final PetType petType;
+    private final PetSex petSex;
     private String address;
     private Double petAge;
     private Double petWeight;
@@ -35,16 +34,8 @@ public class Pet {
         return petType;
     }
 
-    public void setPetType(PetType petType) {
-        this.petType = petType;
-    }
-
-    public PetSex getPetGender() {
+    public PetSex getPetSex() {
         return petSex;
-    }
-
-    public void setPetGender(PetSex petSex) {
-        this.petSex = petSex;
     }
 
     public String getAddress() {
