@@ -38,13 +38,16 @@ public class PetRepositoryInMemory implements PetRepository {
     }
 
     @Override
-    public List<Pet> findByNameAndType(String name, PetType petType) {
+    public List<Pet> findByName(String name, PetType petType) {
         List<Pet> result = new ArrayList<>();
         String filter = name.trim().toLowerCase();
 
         for (Pet p : petList){
             boolean matchesName = p.getName().toLowerCase().contains(filter.toLowerCase());
-            boolean matchesType = p.getPetType() == petType;
+
+            // Se petType for null (busca dinâmica), aceita qualquer animal (retorna true).
+            // Se petType tiver valor, obriga o pet a ser desse tipo exato.
+            boolean matchesType = (petType == null) || (p.getPetType() == petType);
 
             if (matchesName && matchesType) {
                 result.add(p);
@@ -55,12 +58,12 @@ public class PetRepositoryInMemory implements PetRepository {
     }
 
     @Override
-    public List<Pet> findBySexAndType(PetSex petSex, PetType petType){
+    public List<Pet> findBySex(PetSex petSex, PetType petType){
         List<Pet> result = new ArrayList<>();
 
         for (Pet p : petList){
-            boolean matchesType = p.getPetType() == petType;
-            boolean matchesSex = p.getPetGender() == petSex;
+            boolean matchesSex = p.getPetSex() == petSex;
+            boolean matchesType = (petType == null) || (p.getPetType() == petType);
 
             if (matchesType && matchesSex){
                 result.add(p);
@@ -76,7 +79,7 @@ public class PetRepositoryInMemory implements PetRepository {
 
         for (Pet p : petList){
             boolean matchesAge = p.getAge() == age;
-            boolean matchesType = p.getPetType() == petType;
+            boolean matchesType = (petType == null) || (p.getPetType() == petType);
 
             if (matchesAge && matchesType){
                 foundPets.add(p);
@@ -92,7 +95,7 @@ public class PetRepositoryInMemory implements PetRepository {
 
         for (Pet p : petList){
             boolean matchesWeight = p.getWeight() == weight;
-            boolean matchesType = p.getPetType() == petType;
+            boolean matchesType = petType == null || (p.getPetType() == petType);
 
             if (matchesWeight && matchesType){
                 foundPets.add(p);
@@ -108,7 +111,7 @@ public class PetRepositoryInMemory implements PetRepository {
 
         for (Pet p : petList){
             boolean matchesRace = p.getRace().toLowerCase().contains(race.toLowerCase());
-            boolean matchesType = p.getPetType() == petType;
+            boolean matchesType = petType == null || (p.getPetType() == petType);
 
             if (matchesRace && matchesType){
                 foundPets.add(p);
@@ -124,7 +127,7 @@ public class PetRepositoryInMemory implements PetRepository {
 
         for (Pet p : petList){
             boolean matchesAddress = p.getAddress().toLowerCase().contains(address.toLowerCase());
-            boolean matchesType = p.getPetType() == petType;
+            boolean matchesType = petType ==null || (p.getPetType() == petType);
 
             if (matchesAddress && matchesType){
                 foundPets.add(p);
