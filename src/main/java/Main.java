@@ -10,7 +10,7 @@ public class Main {
         Scanner sc = InputUtils.getScanner();
 
         MenuView menuView = new MenuView();
-        menuView.showMenu();
+        menuView.showMainMenu();
 
         sc.close();
     }
