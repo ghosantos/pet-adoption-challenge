@@ -32,11 +32,11 @@ public class ServiceAdoption {
     }
 
     public List<Pet> searchPetsByName(String name, PetType petType){
-        return petRepository.findByNameAndType(name, petType);
+        return petRepository.findByName(name, petType);
     }
 
     public List<Pet> searchPetsBySex(PetSex petSex, PetType petType){
-        return petRepository.findBySexAndType(petSex, petType);
+        return petRepository.findBySex(petSex, petType);
     }
 
     public List<Pet> searchPetsByAge(double age, PetType petType){
@@ -79,3 +79,4 @@ public class ServiceAdoption {
         petRepository.delete(pet);
     }
 }
+
