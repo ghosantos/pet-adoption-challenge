@@ -38,10 +38,10 @@ public class FileUtils {
             StringBuilder sb = new StringBuilder();
             sb.append("1 - ").append(pet.getName()).append("\n")
                     .append("2 - ").append(pet.getPetType()).append("\n")
-                    .append("3 - ").append(pet.getPetGender()).append("\n")
+                    .append("3 - ").append(pet.getPetSex()).append("\n")
                     .append("4 - ").append(pet.getAddress()).append("\n")
-                    .append("5 - ").append(pet.getAge()).append("\n")
-                    .append("6 - ").append(pet.getWeight()).append("\n")
+                    .append("5 - ").append(pet.getAge()).append(" Anos").append("\n")
+                    .append("6 - ").append(pet.getWeight()).append(" KG").append("\n")
                     .append("7 - ").append(pet.getRace()).append("\n");
             bw.write(sb.toString());
         }catch (IOException e){
