@@ -36,7 +36,7 @@ problemas de persistência de dados e regras de negócio.
 ## 🛠️ Tecnologias e Conceitos Aplicados
 
 -   **Java (JDK)** -- Linguagem principal
--   **Arquitetura MVC (Model-View-Controller)**
+-   **Arquitetura MVC**
     -   `view`: Interação com o utilizador
     -   `service`: Regras de negócio e orquestração
     -   `repository`: Acesso e manipulação de dados
